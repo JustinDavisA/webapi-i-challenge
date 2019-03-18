@@ -26,6 +26,11 @@ server.post('/hubs', (req, res) => {
 
 // Read
 server.get('/', (req, res) => {
+    db.hubs.find().then(hubs => {
+        res.status(200).json(hubs);
+    }).catch(error => {
+        res.status(500).json({ message: 'error retrieving hubs' });
+    });
 });
 
 // Update
@@ -58,4 +63,8 @@ server.delete('/hubs/:id', (req, res) => {
         .catch(error => {
             res.status(500).json({ message: 'error deleting the hub' });
         });
+});
+
+server.listen(4000, () => {
+    console.log('\n** API up and running on port 4k **');
 });
