@@ -29,7 +29,21 @@ server.get('/', (req, res) => {
 });
 
 // Update
-server.put('/', (req, res) => {
+server.put('/hubs/:id', (req, res) => {
+    const { id } = req.params;
+
+    const changes = req.body;
+
+    db.hubs.update(id, changes).then(updated => {
+        if (updated) {
+            res.status(200).json(updated);
+        } else {
+            res.status(404).json({ message: 'hub not found' });
+        }
+    })
+        .catch(error => {
+            res.status(500).json({ message: 'error updating the hub' });
+        });
 });
 
 // Delete
